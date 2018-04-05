@@ -82,11 +82,18 @@ function attackShips(positions,board){
     var count = 5
     for(let key in missCount){
         if(missCount[key]<count){
-            console.log('-----------------------------------')
-            console.log(' Booom Kapal ' + key
-                + ' Terkena Serangan sebanyak ' + hitCount[key] + ' kali'
-                + ' dan Miss sebanyak ' + missCount[key] + ' kali'
-            )
+            if(count==hitCount[key]){
+                console.log('-----------------------------------')
+                console.log(' Booooooom!, Serangan Sebanyak ' + hitCount[key] + ' Kali' + ' Kapal ' + key +  ' Hancur Total')
+            }
+            else{
+                console.log('-----------------------------------')
+                console.log(' Booom Kapal ' + key
+                    + ' Terkena Serangan sebanyak ' + hitCount[key] + ' kali'
+                    + ' dan Miss sebanyak ' + missCount[key] + ' kali'
+                )
+            }
+           
         }
         count--
     }
