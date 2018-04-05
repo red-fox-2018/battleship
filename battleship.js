@@ -73,16 +73,22 @@ function attackShips(positions,board){
         if (board[coordinate0][coordinate1]=='   '){
             board[coordinate0][coordinate1]= ' / '
         }
-        if (Object.keys(missCount).indexOf(board[coordinate0][coordinate1])!=-1){     
+        else if (Object.keys(missCount).indexOf(board[coordinate0][coordinate1])!=-1){     
             missCount[board[coordinate0][coordinate1]] -=1
             hitCount[board[coordinate0][coordinate1]] +=1   
-            console.log('-----------------------------------')
-            console.log(' Booom Kapal ' + board[coordinate0][coordinate1]
-                + ' Terkena Serangan sebanyak ' + hitCount[board[coordinate0][coordinate1]] + ' kali'
-                + ' dan Miss sebanyak ' + missCount[board[coordinate0][coordinate1]] + ' kali'
-            )
             board[coordinate0][coordinate1] = ' X '
         } 
+    }
+    var count = 5
+    for(let key in missCount){
+        if(missCount[key]<count){
+            console.log('-----------------------------------')
+            console.log(' Booom Kapal ' + key
+                + ' Terkena Serangan sebanyak ' + hitCount[key] + ' kali'
+                + ' dan Miss sebanyak ' + missCount[key] + ' kali'
+            )
+        }
+        count--
     }
     return board
 }
