@@ -1,7 +1,6 @@
 // Your code here
 const argv = process.argv
 
-console.log(argv);
 function generateBoard() {
     let board = [];
 
@@ -38,9 +37,6 @@ function generateShip() {
     }];
     let status = false;
     
-    while (!status) {
-        
-    }
     for (let i = 0; i < ship.length; i++) {
         let shipPositionRows = Math.floor(Math.random() * (10 - 0)) + 0;
         let shipPositionCols = Math.floor(Math.random() * (10 - 0)) + 0;
@@ -78,6 +74,7 @@ function generateShip() {
 
 function destroyShip() {
     let boardShip = generateShip();
+
     for (let i = 0; i < boardShip.length; i++) {
         for (let j = 0; j < boardShip[i].length; j++) {
             if (i === parseInt(argv[2]) && j === parseInt(argv[3]) && boardShip[i][j] === 'X') {
