@@ -36,63 +36,78 @@ function generateShip() {
         size: 2,
         coor: []
     }];
-    let status = false;
+    let coordinates = [];
 
     for (let i = 0; i < ship.length; i++) {
-        let shipPositionRows = Math.floor(Math.random() * (10 - 0)) + 0;
-        let shipPositionCols = Math.floor(Math.random() * (10 - 0)) + 0;
-        let verticalHorizontal = Math.floor(Math.random() * (2 - 0)) + 0;
+        let status = false;
 
-        if (verticalHorizontal === 1) {
-            // console.log('rows: ' + shipPositionRows);
-            var rowsAkhir = shipPositionRows + ship[i].size;
-            var colsAkhir = shipPositionCols;
-        } else {
-            // console.log('cols: ' + shipPositionCols);
-            var colsAkhir = shipPositionCols + ship[i].size;
-            var rowsAkhir = shipPositionRows;
+        while (!status) {
+            let shipPositionRows = Math.floor(Math.random() * (10 - 0)) + 0;
+            let shipPositionCols = Math.floor(Math.random() * (10 - 0)) + 0;
+            let verticalHorizontal = Math.floor(Math.random() * (2 - 0)) + 0;
+
+            if (verticalHorizontal === 1) {
+                var rowsAkhir = shipPositionRows + ship[i].size;
+                var colsAkhir = shipPositionCols;
+            } else {
+                var colsAkhir = shipPositionCols + ship[i].size;
+                var rowsAkhir = shipPositionRows;
+            }
+
+            // horizontal
+            if (colsAkhir > 10) {
+                let sisa = colsAkhir - 10;
+
+                for (let j = shipPositionCols - sisa; j < colsAkhir - sisa; j++) {
+                    try {
+                        arrShip[shipPositionRows][j] = 'A';
+                        ship[i].coor.push([j, shipPositionRows]);
+                    } catch (err) {}
+                }
+            } else {
+                for (let j = shipPositionCols; j < colsAkhir; j++) {
+                    try {
+                        arrShip[shipPositionRows][j] = 'X';
+                        ship[i].coor.push([j, shipPositionRows]);
+                    } catch (err) {}
+                }
+            }
+
+
+            // vertical
+            if (rowsAkhir > 10) {
+                let sisa = rowsAkhir - 10;
+
+                for (let k = shipPositionRows - sisa; k < rowsAkhir - sisa; k++) {
+                    try {
+                        arrShip[k][shipPositionCols] = 'B';
+                        ship[i].coor.push([k, shipPositionCols]);
+                    } catch (err) {}
+                }
+            } else {
+                for (let k = shipPositionRows; k < rowsAkhir; k++) {
+                    try {
+                        arrShip[k][shipPositionCols] = 'X';
+                        ship[i].coor.push([k, shipPositionCols]);
+                    } catch (err) {}
+                }
+            }
+
+            for (let n = 0; n < ship[i].coor.length; n++) {
+                if (coordinates.includes(ship[i].coor[n]) === true) {
+                    console.log('masuk sini');
+                    status = false;
+                } else {
+                    console.log('masuk push');
+                    coordinates.push(ship[i].coor);
+                    status = true;
+                }
+            }
+
         }
 
-        // horizontal
-        if (colsAkhir > 10) {
-            let sisa = colsAkhir - 10;
-
-            for (let j = shipPositionCols - sisa; j < colsAkhir - sisa; j++) {
-                try {
-                    arrShip[shipPositionRows][j] = 'A';
-                    ship[i].coor.push([j, shipPositionRows]);
-                } catch (err) {}
-            }
-        } else {
-            for (let j = shipPositionCols; j < colsAkhir; j++) {
-                try {
-                    arrShip[shipPositionRows][j] = 'X';
-                    ship[i].coor.push([j, shipPositionRows]);
-                } catch (err) {}
-            }
-        }
-
-
-        // vertical
-        if (rowsAkhir > 10) {
-            let sisa = rowsAkhir - 10;
-    
-            for (let k = shipPositionRows - sisa; k < rowsAkhir - sisa; k++) {
-                try {
-                    arrShip[k][shipPositionCols] = 'B';
-                    ship[i].coor.push([k, shipPositionCols]);
-                } catch (err) {}
-            }
-        } else {
-            for (let k = shipPositionRows; k < rowsAkhir; k++) {
-                try {
-                    arrShip[k][shipPositionCols] = 'X';
-                    ship[i].coor.push([k, shipPositionCols]);
-                } catch (err) {}
-            }
-        }
     }
-    
+
     return arrShip;
 }
 
