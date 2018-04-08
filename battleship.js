@@ -1,5 +1,6 @@
 // Your code here
-const argv = process.argv
+const argv = process.argv;
+const Table = require('cli-table');
 
 function generateBoard() {
     let board = [];
@@ -36,7 +37,7 @@ function generateShip() {
         coor: []
     }];
     let status = false;
-    
+
     for (let i = 0; i < ship.length; i++) {
         let shipPositionRows = Math.floor(Math.random() * (10 - 0)) + 0;
         let shipPositionCols = Math.floor(Math.random() * (10 - 0)) + 0;
@@ -53,22 +54,45 @@ function generateShip() {
         }
 
         // horizontal
-        for (let j = shipPositionCols; j < colsAkhir; j++) {
-            try {
-                arrShip[shipPositionRows][j] = 'X';
-                ship[i].coor.push([j, shipPositionRows]);
-            } catch (err) {}
+        if (colsAkhir > 10) {
+            let sisa = colsAkhir - 10;
+
+            for (let j = shipPositionCols - sisa; j < colsAkhir - sisa; j++) {
+                try {
+                    arrShip[shipPositionRows][j] = 'A';
+                    ship[i].coor.push([j, shipPositionRows]);
+                } catch (err) {}
+            }
+        } else {
+            for (let j = shipPositionCols; j < colsAkhir; j++) {
+                try {
+                    arrShip[shipPositionRows][j] = 'X';
+                    ship[i].coor.push([j, shipPositionRows]);
+                } catch (err) {}
+            }
         }
 
+
         // vertical
-        for (let k = shipPositionRows; k < rowsAkhir; k++) {
-            try {
-                arrShip[k][shipPositionCols] = 'X';
-                ship[i].coor.push([k, shipPositionCols]);
-            } catch (err) {}
+        if (rowsAkhir > 10) {
+            let sisa = rowsAkhir - 10;
+    
+            for (let k = shipPositionRows - sisa; k < rowsAkhir - sisa; k++) {
+                try {
+                    arrShip[k][shipPositionCols] = 'B';
+                    ship[i].coor.push([k, shipPositionCols]);
+                } catch (err) {}
+            }
+        } else {
+            for (let k = shipPositionRows; k < rowsAkhir; k++) {
+                try {
+                    arrShip[k][shipPositionCols] = 'X';
+                    ship[i].coor.push([k, shipPositionCols]);
+                } catch (err) {}
+            }
         }
     }
-    console.log(ship);
+    
     return arrShip;
 }
 
@@ -79,12 +103,23 @@ function destroyShip() {
         for (let j = 0; j < boardShip[i].length; j++) {
             if (i === parseInt(argv[2]) && j === parseInt(argv[3]) && boardShip[i][j] === 'X') {
                 boardShip[i][j] = 'O';
-                console.log('---------')
             }
         }
     }
 
-    console.log(boardShip);
+    let table = new Table({
+        head: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        colWidths: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+    });
+    let columnName = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
+    boardShip.forEach((data, index) => {
+        table.push({
+            [columnName[index]]: data
+        });
+    })
+
+    console.log(table.toString());
 }
 
 destroyShip();
